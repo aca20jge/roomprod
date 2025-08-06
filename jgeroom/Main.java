@@ -1,5 +1,5 @@
 /* I declare that this code is my own work */
-/* Author: Your Name - your.email@domain.com */
+/* Author: Jack Edwards - jgedwards1@sheff.ac.uk */
 
 import gmaths.*;
 import com.jogamp.opengl.*;
