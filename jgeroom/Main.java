@@ -30,18 +30,5 @@ public class Main {
     final FPSAnimator animator = new FPSAnimator(canvas, 60);
     animator.start();
 
-    GLCanvas canvas = new GLCanvas(capabilities);
-    RoomScene renderer = new RoomScene();
-    canvas.addGLEventListener(renderer);
-
-    JFrame frame = new JFrame("Room Scene");
-    frame.getContentPane().add(canvas);
-    frame.setSize(800, 800);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-    FPSAnimator animator = new FPSAnimator(canvas, 60);
-    animator.start();
-
   }
 }
