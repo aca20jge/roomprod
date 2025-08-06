@@ -72,8 +72,8 @@ public class Model {
 
     mesh.render(gl);
 
-    if (texture1 != null) texture1.unbind(gl);
-    if (texture2 != null) texture2.unbind(gl);
+    if (texture1 != null) texture1.disable(gl);
+    if (texture2 != null) texture2.disable(gl);
   }
 
   public void dispose(GL3 gl) {
