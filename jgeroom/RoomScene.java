@@ -3,6 +3,7 @@
 
 import com.jogamp.opengl.*;
 import gmaths.*;
+import com.jogamp.opengl.util.texture.Texture;
 
 public class RoomScene implements GLEventListener {
 
@@ -41,7 +42,7 @@ public class RoomScene implements GLEventListener {
     light = new Light(gl);
     light.setPosition(new Vec3(2f, 15f, 2f));
     light.setCamera(camera);
-    light.setMaterial(new Material(new Vec3(1), new Vec3(1), new Vec3(1), 32f));
+    light.setMaterial(new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), 32f));
     light.setLightColour(new Vec3(1, 1, 1));
 
     // Load Textures

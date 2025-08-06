@@ -79,7 +79,7 @@ public class room {
 
   // POSTERS ------------------
   private Model makePoster(GL3 gl, float x, float y, Texture tex, Texture specTex) {
-    Material material = new Material(new Vec3(1f), new Vec3(1f), new Vec3(0.5f), 32.0f);
+    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.5f,0.5f,0.5f), 32.0f);
 
     Mat4 m = new Mat4(1);
     m = Mat4.multiply(Mat4Transform.scale(3f, 1f, 4f), m); // poster aspect ratio
@@ -98,7 +98,7 @@ public class room {
   }
 
   private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix) {
-    Material mat = new Material(new Vec3(1f), new Vec3(1f), new Vec3(0.3f), 32f);
+    Material mat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
     Mesh mesh = new Mesh(gl, TwoTriangles.vertices.clone(), TwoTriangles.indices.clone());
     Shader shader;
 
