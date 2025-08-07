@@ -1,6 +1,5 @@
 import gmaths.*;
 import com.jogamp.opengl.*;
-import com.jogamp.opengl.util.texture.*;
 
 public class Model {
   private String name;
@@ -10,16 +9,9 @@ public class Model {
   private Material material;
   private Light light;
   private Camera camera;
-  private Texture texture1;
-  private Texture texture2;
 
   public Model(String name, Mesh mesh, Mat4 modelMatrix, Shader shader, Material material,
-               Light light, Camera camera, Texture texture1) {
-    this(name, mesh, modelMatrix, shader, material, light, camera, texture1, null);
-  }
-
-  public Model(String name, Mesh mesh, Mat4 modelMatrix, Shader shader, Material material,
-               Light light, Camera camera, Texture texture1, Texture texture2) {
+               Light light, Camera camera) {
     this.name = name;
     this.mesh = mesh;
     this.modelMatrix = modelMatrix;
@@ -27,8 +19,6 @@ public class Model {
     this.material = material;
     this.light = light;
     this.camera = camera;
-    this.texture1 = texture1;
-    this.texture2 = texture2;
   }
 
   public void render(GL3 gl) {
@@ -59,30 +49,7 @@ public class Model {
       shader.setFloat(gl, "material.shininess", material.getShininess());
     }
 
-    if (texture1 != null) {
-      gl.glActiveTexture(GL.GL_TEXTURE0);
-      texture1.bind(gl);
-      shader.setInt(gl, "first_texture", 0);
-    }
-    if (texture2 != null) {
-      gl.glActiveTexture(GL.GL_TEXTURE1);
-      texture2.bind(gl);
-      shader.setInt(gl, "second_texture", 1);
-    }
-
     mesh.render(gl);
-
-    // Unbind textures after rendering to avoid leaking state across models
-    if (texture2 != null) {
-      gl.glActiveTexture(GL.GL_TEXTURE1);
-      texture2.disable(gl);
-    }
-    if (texture1 != null) {
-      gl.glActiveTexture(GL.GL_TEXTURE0);
-      texture1.disable(gl);
-    }
-    // Reset active texture to default
-    gl.glActiveTexture(GL.GL_TEXTURE0);
   }
 
   public void dispose(GL3 gl) {
