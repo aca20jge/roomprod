@@ -13,13 +13,13 @@ public class room {
 
   // Textures
   private Texture t_floor, t_back, t_right, t_left, t_window;
-  private Texture poster1Tex, poster2Tex, poster2Spec, poster3Tex;
+  private Texture poster1Tex, poster2Tex, poster3Tex;
 
   private float size = 16f;
 
   public room(GL3 gl, Camera c, Light light,
               Texture t_floor, Texture t_back, Texture t_right, Texture t_left, Texture t_window,
-              Texture poster1Tex, Texture poster2Tex, Texture poster2Spec, Texture poster3Tex) {
+              Texture poster1Tex, Texture poster2Tex, Texture poster3Tex) {
 
     this.camera = c;
     this.light = light;
@@ -30,7 +30,6 @@ public class room {
     this.t_window = t_window;
     this.poster1Tex = poster1Tex;
     this.poster2Tex = poster2Tex;
-    this.poster2Spec = poster2Spec;
     this.poster3Tex = poster3Tex;
 
     walls = new ArrayList<>();
@@ -40,9 +39,9 @@ public class room {
     addLeftWallWithWindow(gl);
 
     posters = new Model[3];
-    posters[0] = makePoster(gl, -4f, 5f, poster1Tex, null);              // Poster 1 - no specular
-    posters[1] = makePoster(gl, 0f, 5f, poster2Tex, poster2Spec);        // Poster 2 - with specular
-    posters[2] = makePoster(gl, 4f, 5f, poster3Tex, null);               // Poster 3 - no specular
+    posters[0] = makePoster(gl, -4f, 5f, poster1Tex);              // Poster 1
+    posters[1] = makePoster(gl, 0f, 5f, poster2Tex);               // Poster 2
+    posters[2] = makePoster(gl, 4f, 5f, poster3Tex);               // Poster 3
   }
 
   // WALLS --------------------
@@ -117,20 +116,24 @@ public class room {
   }
 
 // POSTERS ------------------
-  private Model makePoster(GL3 gl, float x, float y, Texture tex, Texture specTex) {
-    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.5f,0.5f,0.5f), 32.0f);
+  private Model makePoster(GL3 gl, float x, float y, Texture tex) {
+    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0f,0f,0f), 32.0f);
 
     // Transformation: scale first, then translate slightly backward
     Mat4 m = new Mat4(1);
     m = Mat4.multiply(Mat4Transform.scale(3f, 1f, 4f), m);               // Poster size/aspect
     m = Mat4.multiply(Mat4Transform.translate(x, y, -0.1f), m);         // Push poster slightly away from camera
 
-    return createQuad(gl, "poster", tex, specTex, m);
+    return createQuad(gl, "poster", tex, null, m, material);
   }
 
 
   private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix) {
     Material mat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    return createQuad(gl, name, t1, t2, modelMatrix, mat);
+  }
+
+  private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix, Material mat) {
     Mesh mesh = new Mesh(gl, TwoTriangles.vertices.clone(), TwoTriangles.indices.clone());
     Shader shader;
 
