@@ -1,6 +1,5 @@
 import gmaths.*;
 import com.jogamp.opengl.*;
-import com.jogamp.opengl.util.texture.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,26 +10,12 @@ public class room {
   private Camera camera;
   private Light light;
 
-  // Textures
-  private Texture t_floor, t_back, t_right, t_left, t_window;
-  private Texture poster1Tex, poster2Tex, poster3Tex;
-
   private float size = 16f;
 
-  public room(GL3 gl, Camera c, Light light,
-              Texture t_floor, Texture t_back, Texture t_right, Texture t_left, Texture t_window,
-              Texture poster1Tex, Texture poster2Tex, Texture poster3Tex) {
+  public room(GL3 gl, Camera c, Light light) {
 
     this.camera = c;
     this.light = light;
-    this.t_floor = t_floor;
-    this.t_back = t_back;
-    this.t_right = t_right;
-    this.t_left = t_left;
-    this.t_window = t_window;
-    this.poster1Tex = poster1Tex;
-    this.poster2Tex = poster2Tex;
-    this.poster3Tex = poster3Tex;
 
     walls = new ArrayList<>();
     walls.add(makeFloor(gl));
@@ -39,15 +24,15 @@ public class room {
     addLeftWallWithWindow(gl);
 
     posters = new Model[3];
-    posters[0] = makePoster(gl, -4f, 5f, poster1Tex);              // Poster 1
-    posters[1] = makePoster(gl, 0f, 5f, poster2Tex);               // Poster 2
-    posters[2] = makePoster(gl, 4f, 5f, poster3Tex);               // Poster 3
+    posters[0] = makePoster(gl, -4f, 5f, new Vec3(1f, 0f, 0f)); // Poster 1 - red
+    posters[1] = makePoster(gl, 0f, 5f, new Vec3(0f, 1f, 0f));  // Poster 2 - green
+    posters[2] = makePoster(gl, 4f, 5f, new Vec3(0f, 0f, 1f));  // Poster 3 - blue
   }
 
   // WALLS --------------------
   private Model makeFloor(GL3 gl) {
-    return createQuadRepeat(gl, "floor", t_floor, null,
-      Mat4Transform.scale(size,1f,size), 8f, 8f);
+    Material m = new Material(new Vec3(0.8f,0.8f,0.8f), new Vec3(0.8f,0.8f,0.8f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    return createQuadRepeat(gl, "floor", Mat4Transform.scale(size,1f,size), 8f, 8f, m);
   }
 
   private Model makeBackWall(GL3 gl) {
@@ -55,7 +40,8 @@ public class room {
     m = Mat4.multiply(Mat4Transform.scale(size,1f,size), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundX(90), m);
     m = Mat4.multiply(Mat4Transform.translate(0,size*0.5f,-size*0.5f), m);
-    return createQuad(gl, "backWall", t_back, null, m);
+    Material wallMat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    return createQuad(gl, "backWall", m, wallMat);
   }
 
   private Model makeRightWall(GL3 gl) {
@@ -64,7 +50,8 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(-size*0.5f,size*0.5f,0), m);
-    return createQuadRepeat(gl, "rightWall", t_right, null, m, 4f, 4f);
+    Material wallMat = new Material(new Vec3(0.9f,0.9f,0.9f), new Vec3(0.9f,0.9f,0.9f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    return createQuadRepeat(gl, "rightWall", m, 4f, 4f, wallMat);
   }
   
   private void addLeftWallWithWindow(GL3 gl) {
@@ -80,7 +67,8 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(-90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(size * 0.5f, size * 0.5f, -size * 0.5f + border * 0.5f), m);
-    walls.add(createQuad(gl, "leftWallSideL", t_left, null, m));
+    Material wallMat = new Material(new Vec3(0.9f,0.9f,0.9f), new Vec3(0.9f,0.9f,0.9f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    walls.add(createQuad(gl, "leftWallSideL", m, wallMat));
 
     // Right vertical strip
     m = new Mat4(1);
@@ -88,7 +76,7 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(-90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(size * 0.5f, size * 0.5f, size * 0.5f - border * 0.5f), m);
-    walls.add(createQuad(gl, "leftWallSideR", t_left, null, m));
+    walls.add(createQuad(gl, "leftWallSideR", m, wallMat));
 
     // Top strip
     m = new Mat4(1);
@@ -96,7 +84,7 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(-90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(size * 0.5f, size - border * 0.5f, 0), m);
-    walls.add(createQuad(gl, "leftWallTop", t_left, null, m));
+    walls.add(createQuad(gl, "leftWallTop", m, wallMat));
 
     // Bottom strip
     m = new Mat4(1);
@@ -104,7 +92,7 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(-90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(size * 0.5f, border * 0.5f, 0), m);
-    walls.add(createQuad(gl, "leftWallBottom", t_left, null, m));
+    walls.add(createQuad(gl, "leftWallBottom", m, wallMat));
 
     // Outside view
     m = new Mat4(1);
@@ -112,42 +100,35 @@ public class room {
     m = Mat4.multiply(Mat4Transform.rotateAroundY(-90), m);
     m = Mat4.multiply(Mat4Transform.rotateAroundZ(-90), m);
     m = Mat4.multiply(Mat4Transform.translate(size * 0.5f + 0.1f, size * 0.5f, 0), m);
-    walls.add(createQuad(gl, "windowView", t_window, null, m));
+    Material windowMat = new Material(new Vec3(0.5f,0.7f,1f), new Vec3(0.5f,0.7f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
+    walls.add(createQuad(gl, "windowView", m, windowMat));
   }
 
 // POSTERS ------------------
-  private Model makePoster(GL3 gl, float x, float y, Texture tex) {
-    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0f,0f,0f), 32.0f);
+  private Model makePoster(GL3 gl, float x, float y, Vec3 colour) {
+    Material material = new Material(colour, colour, new Vec3(0f,0f,0f), 32.0f);
 
     // Transformation: scale first, then translate slightly backward
     Mat4 m = new Mat4(1);
     m = Mat4.multiply(Mat4Transform.scale(3f, 1f, 4f), m);               // Poster size/aspect
     m = Mat4.multiply(Mat4Transform.translate(x, y, -0.1f), m);         // Push poster slightly away from camera
 
-    return createQuad(gl, "poster", tex, null, m, material);
+    return createQuad(gl, "poster", m, material);
   }
 
 
-  private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix) {
+  private Model createQuad(GL3 gl, String name, Mat4 modelMatrix) {
     Material mat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
-    return createQuad(gl, name, t1, t2, modelMatrix, mat);
+    return createQuad(gl, name, modelMatrix, mat);
   }
 
-  private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix, Material mat) {
+  private Model createQuad(GL3 gl, String name, Mat4 modelMatrix, Material mat) {
     Mesh mesh = new Mesh(gl, TwoTriangles.vertices.clone(), TwoTriangles.indices.clone());
-    Shader shader;
-
-    if (t2 != null) {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_2t.txt");
-      return new Model(name, mesh, modelMatrix, shader, mat, light, camera, t1, t2);
-    } else {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_1t.txt");
-      return new Model(name, mesh, modelMatrix, shader, mat, light, camera, t1);
-    }
+    Shader shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_0t.txt");
+    return new Model(name, mesh, modelMatrix, shader, mat, light, camera);
   }
 
-  private Model createQuadRepeat(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix, float repeatU, float repeatV) {
-    Material mat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);
+  private Model createQuadRepeat(GL3 gl, String name, Mat4 modelMatrix, float repeatU, float repeatV, Material mat) {
     float[] verts = {
       -0.5f, 0.0f, -0.5f,  0.0f,1.0f,0.0f,  0.0f, repeatV,
       -0.5f, 0.0f,  0.5f,  0.0f,1.0f,0.0f,  0.0f, 0.0f,
@@ -155,14 +136,8 @@ public class room {
        0.5f, 0.0f, -0.5f,  0.0f,1.0f,0.0f,  repeatU, repeatV
     };
     Mesh mesh = new Mesh(gl, verts, TwoTriangles.indices.clone());
-    Shader shader;
-    if (t2 != null) {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_2t.txt");
-      return new Model(name, mesh, modelMatrix, shader, mat, light, camera, t1, t2);
-    } else {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_1t.txt");
-      return new Model(name, mesh, modelMatrix, shader, mat, light, camera, t1);
-    }
+    Shader shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_0t.txt");
+    return new Model(name, mesh, modelMatrix, shader, mat, light, camera);
   }
 
   public void render(GL3 gl) {

@@ -1,6 +1,5 @@
 import com.jogamp.opengl.*;
 import gmaths.*;
-import com.jogamp.opengl.util.texture.Texture;
 
 public class RoomScene implements GLEventListener {
 
@@ -45,29 +44,8 @@ public class RoomScene implements GLEventListener {
     light.setMaterial(new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), 32f));
     light.setLightColour(new Vec3(1, 1, 1));
 
-    // Load Textures
-    Texture t_floor = TextureLibrary.loadTexture(gl, "assets/textures/chequerboard.jpg");
-    t_floor.bind(gl);
-    t_floor.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_S, GL3.GL_REPEAT);
-    t_floor.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_T, GL3.GL_REPEAT);
-
-    Texture t_back = TextureLibrary.loadTexture(gl, "assets/textures/noticeboard.jpg");
-
-    Texture t_right = TextureLibrary.loadTexture(gl, "assets/textures/cat.jpg");
-    t_right.bind(gl);
-    t_right.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_S, GL3.GL_REPEAT);
-    t_right.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_T, GL3.GL_REPEAT);
-
-    Texture t_left = TextureLibrary.loadTexture(gl, "assets/textures/container2.jpg");
-    Texture t_window = TextureLibrary.loadTexture(gl, "assets/textures/cloud.jpg");
-
-    Texture poster1 = TextureLibrary.loadTexture(gl, "assets/textures/poster2.jpg");
-    Texture poster2 = TextureLibrary.loadTexture(gl, "assets/textures/poster3.jpg");
-    Texture poster3 = TextureLibrary.loadTexture(gl, "assets/textures/wattBook.jpg");
-
-    // Build the room scene
-    myRoom = new room(gl, camera, light, t_floor, t_back, t_right, t_left, t_window,
-                      poster1, poster2, poster3);
+    // Build the room scene without textures
+    myRoom = new room(gl, camera, light);
   }
 
   @Override
