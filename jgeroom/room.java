@@ -47,8 +47,8 @@ public class room {
 
   // WALLS --------------------
   private Model makeFloor(GL3 gl) {
-    return createQuad(gl, "floor", t_floor, null,
-      Mat4Transform.scale(size,1f,size));
+    return createQuadRepeat(gl, "floor", t_floor, null,
+      Mat4Transform.scale(size,1f,size), 8f, 8f);
   }
 
   private Model makeBackWall(GL3 gl) {
