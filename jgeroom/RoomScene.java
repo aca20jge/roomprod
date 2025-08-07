@@ -45,7 +45,11 @@ public class RoomScene implements GLEventListener {
     // Load Textures
     Texture t_floor = TextureLibrary.loadTexture(gl, "assets/textures/chequerboard.jpg");
     Texture t_back = TextureLibrary.loadTexture(gl, "assets/textures/noticeboard.jpg");
-    Texture t_right = TextureLibrary.loadTexture(gl, "assets/textures/container2.jpg");
+    Texture t_right = TextureLibrary.loadTexture(gl, "assets/textures/cat.jpg");
+    t_right.bind(gl);
+    t_right.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_S, GL3.GL_REPEAT);
+    t_right.setTexParameteri(gl, GL3.GL_TEXTURE_WRAP_T, GL3.GL_REPEAT);
+    Texture t_left = TextureLibrary.loadTexture(gl, "assets/textures/container2.jpg");
     Texture t_window = TextureLibrary.loadTexture(gl, "assets/textures/cloud.jpg");
 
     Texture poster1 = TextureLibrary.loadTexture(gl, "assets/textures/poster2.jpg");
@@ -54,7 +58,7 @@ public class RoomScene implements GLEventListener {
     Texture poster3 = TextureLibrary.loadTexture(gl, "assets/textures/wattBook.jpg");
 
     // Build the room scene
-    myRoom = new room(gl, camera, light, t_floor, t_back, t_right, t_window,
+    myRoom = new room(gl, camera, light, t_floor, t_back, t_right, t_left, t_window,
                       poster1, poster2, poster2Spec, poster3);
   }
 
