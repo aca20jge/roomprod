@@ -72,8 +72,17 @@ public class Model {
 
     mesh.render(gl);
 
-    if (texture1 != null) texture1.disable(gl);
-    if (texture2 != null) texture2.disable(gl);
+    // Unbind textures after rendering to avoid leaking state across models
+    if (texture2 != null) {
+      gl.glActiveTexture(GL.GL_TEXTURE1);
+      texture2.disable(gl);
+    }
+    if (texture1 != null) {
+      gl.glActiveTexture(GL.GL_TEXTURE0);
+      texture1.disable(gl);
+    }
+    // Reset active texture to default
+    gl.glActiveTexture(GL.GL_TEXTURE0);
   }
 
   public void dispose(GL3 gl) {
