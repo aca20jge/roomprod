@@ -10,6 +10,9 @@ public class MyKeyboardInput extends KeyAdapter {
 
   @Override
   public void keyPressed(KeyEvent e) {
+    if (camera == null) {
+      return;
+    }
     switch (e.getKeyCode()) {
       case KeyEvent.VK_W:
         camera.keyboardInput(Camera.Movement.FORWARD);
