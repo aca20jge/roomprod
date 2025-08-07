@@ -40,9 +40,10 @@ vec3 CalcPointLight(Light light, vec3 norm, vec3 aPos, vec3 viewDir) {
   vec3 diffuse = light.diffuse * diff  * texture(first_texture, aTexCoord).rgb;
   
   // specular 
-  vec3 reflectDir = reflect(-lightDir, norm);  
+  vec3 reflectDir = reflect(-lightDir, norm);
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-  vec3 specular = light.specular * spec * vec3(texture(second_texture, aTexCoord));
+  float specMap = texture(second_texture, aTexCoord).r;
+  vec3 specular = light.specular * spec * specMap;
  
   vec3 result = ambient + diffuse + specular;
   return result;
