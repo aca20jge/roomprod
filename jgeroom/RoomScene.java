@@ -63,12 +63,11 @@ public class RoomScene implements GLEventListener {
 
     Texture poster1 = TextureLibrary.loadTexture(gl, "assets/textures/poster2.jpg");
     Texture poster2 = TextureLibrary.loadTexture(gl, "assets/textures/poster3.jpg");
-    Texture poster2Spec = TextureLibrary.loadTexture(gl, "assets/textures/poster3_specular.jpg");
     Texture poster3 = TextureLibrary.loadTexture(gl, "assets/textures/wattBook.jpg");
 
     // Build the room scene
     myRoom = new room(gl, camera, light, t_floor, t_back, t_right, t_left, t_window,
-                      poster1, poster2, poster2Spec, poster3);
+                      poster1, poster2, poster3);
   }
 
   @Override
