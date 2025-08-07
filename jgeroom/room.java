@@ -116,25 +116,18 @@ public class room {
     walls.add(createQuad(gl, "windowView", t_window, null, m));
   }
 
-  // POSTERS ------------------
+// POSTERS ------------------
   private Model makePoster(GL3 gl, float x, float y, Texture tex, Texture specTex) {
-    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.5f,0.5f,0.5f), 32.0f);
+    Material material = new Material(new Vec3(1f), new Vec3(1f), new Vec3(0.5f), 32.0f);
 
+    // Transformation: scale first, then translate slightly backward
     Mat4 m = new Mat4(1);
-    m = Mat4.multiply(Mat4Transform.scale(3f, 1f, 4f), m); // poster aspect ratio
-    m = Mat4.multiply(Mat4Transform.translate(x, y, -size + 0.1f), m); // push a bit forward to prevent Z-fighting
+    m = Mat4.multiply(Mat4Transform.scale(3f, 1f, 4f), m);               // Poster size/aspect
+    m = Mat4.multiply(Mat4Transform.translate(x, y, -0.1f), m);         // Push poster slightly away from camera
 
-    Mesh mesh = new Mesh(gl, TwoTriangles.vertices.clone(), TwoTriangles.indices.clone());
-
-    Shader shader;
-    if (specTex != null) {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_2t.txt");
-      return new Model("poster", mesh, m, shader, material, light, camera, tex, specTex);
-    } else {
-      shader = new Shader(gl, "assets/shaders/vs_standard.txt", "assets/shaders/fs_standard_1t.txt");
-      return new Model("poster", mesh, m, shader, material, light, camera, tex);
-    }
+    return createQuad(gl, "poster", tex, specTex, m);
   }
+
 
   private Model createQuad(GL3 gl, String name, Texture t1, Texture t2, Mat4 modelMatrix) {
     Material mat = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.3f,0.3f,0.3f), 32f);

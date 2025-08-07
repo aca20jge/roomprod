@@ -23,8 +23,11 @@ public class RoomScene implements GLEventListener {
     gl.glFrontFace(GL.GL_CCW);
 
     // Camera (using your class)
-    Vec3 position = new Vec3(0f, 10f, 20f);
+
+    // You can also move it higher to look down into the room:
+    Vec3 position = new Vec3(0f, 12f, 25f);
     Vec3 target = new Vec3(0f, 5f, 0f);
+
     Vec3 up = new Vec3(0f, 1f, 0f);
     camera = new Camera(position, target, up);
     
