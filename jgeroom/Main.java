@@ -17,6 +17,15 @@ public class Main {
     canvas.addGLEventListener(renderer);
     canvas.setSize(800, 800);
 
+    // Input handlers for moving the camera
+    MyKeyboardInput keyboardInput = new MyKeyboardInput(renderer.getCamera());
+    MyMouseInput mouseInput = new MyMouseInput(renderer.getCamera());
+    canvas.addKeyListener(keyboardInput);
+    canvas.addMouseListener(mouseInput);
+    canvas.addMouseMotionListener(mouseInput);
+    canvas.setFocusable(true);
+    canvas.requestFocusInWindow();
+
     final JFrame frame = new JFrame("Room Scene");
     frame.getContentPane().add(canvas);
     frame.setSize(frame.getContentPane().getPreferredSize());
