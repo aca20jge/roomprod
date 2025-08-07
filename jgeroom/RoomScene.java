@@ -43,15 +43,15 @@ public class RoomScene implements GLEventListener {
     light.setLightColour(new Vec3(1, 1, 1));
 
     // Load Textures
-    Texture t_floor = TextureLibrary.loadTexture(gl, "textures/chequerboard.jpg");
-    Texture t_back = TextureLibrary.loadTexture(gl, "textures/noticeboard.jpg");
-    Texture t_right = TextureLibrary.loadTexture(gl, "textures/container2.jpg");
-    Texture t_window = TextureLibrary.loadTexture(gl, "textures/cloud.jpg");
+    Texture t_floor = TextureLibrary.loadTexture(gl, "assets/textures/chequerboard.jpg");
+    Texture t_back = TextureLibrary.loadTexture(gl, "assets/textures/noticeboard.jpg");
+    Texture t_right = TextureLibrary.loadTexture(gl, "assets/textures/container2.jpg");
+    Texture t_window = TextureLibrary.loadTexture(gl, "assets/textures/cloud.jpg");
 
-    Texture poster1 = TextureLibrary.loadTexture(gl, "textures/poster2.jpg");
-    Texture poster2 = TextureLibrary.loadTexture(gl, "textures/poster3.jpg");
-    Texture poster2Spec = TextureLibrary.loadTexture(gl, "textures/poster3_specular.jpg");
-    Texture poster3 = TextureLibrary.loadTexture(gl, "textures/wattBook.jpg");
+    Texture poster1 = TextureLibrary.loadTexture(gl, "assets/textures/poster2.jpg");
+    Texture poster2 = TextureLibrary.loadTexture(gl, "assets/textures/poster3.jpg");
+    Texture poster2Spec = TextureLibrary.loadTexture(gl, "assets/textures/poster3_specular.jpg");
+    Texture poster3 = TextureLibrary.loadTexture(gl, "assets/textures/wattBook.jpg");
 
     // Build the room scene
     myRoom = new room(gl, camera, light, t_floor, t_back, t_right, t_window,
