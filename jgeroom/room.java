@@ -118,7 +118,7 @@ public class room {
 
 // POSTERS ------------------
   private Model makePoster(GL3 gl, float x, float y, Texture tex, Texture specTex) {
-    Material material = new Material(new Vec3(1f), new Vec3(1f), new Vec3(0.5f), 32.0f);
+    Material material = new Material(new Vec3(1f,1f,1f), new Vec3(1f,1f,1f), new Vec3(0.5f,0.5f,0.5f), 32.0f);
 
     // Transformation: scale first, then translate slightly backward
     Mat4 m = new Mat4(1);
